@@ -4,6 +4,7 @@ import ch.schneider.michael.myVault.security.Roles;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,20 +29,20 @@ public class UserController {
     @RolesAllowed(Roles.Read)
     public ResponseEntity<User> currentUser(Principal principal) {
         User user = userService.getUserByUsername(principal.getName());
-        return ResponseEntity.ok(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping
     @RolesAllowed(Roles.Read)
     public ResponseEntity<List<User>> all() {
         List<User> result = userService.getUsers();
-        return ResponseEntity.ok(result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
         User updatedUser = userService.updateUser(user, id);
-        return ResponseEntity.ok(updatedUser);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 }

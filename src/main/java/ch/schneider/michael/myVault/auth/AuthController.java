@@ -4,6 +4,7 @@ import ch.schneider.michael.myVault.security.Roles;
 import ch.schneider.michael.myVault.user.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,6 @@ public class AuthController {
     @GetMapping("/user")
     @RolesAllowed(Roles.Read)
     public ResponseEntity<User> currentUser(Principal principal) {
-        return ResponseEntity.ok(authService.currentUser(principal));
+        return new ResponseEntity<>(authService.currentUser(principal), HttpStatus.OK);
     }
 }

@@ -37,7 +37,7 @@ public class MovementController {
     @RolesAllowed(Roles.Read)
     public ResponseEntity<List<Movement>> all() {
         List<Movement> result = movementService.getMovements();
-        return ResponseEntity.ok(result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     // GET /api/movement/{id}
@@ -45,7 +45,7 @@ public class MovementController {
     @RolesAllowed(Roles.Read)
     public ResponseEntity<Movement> one(@PathVariable Long id) {
         Movement movement = movementService.getMovement(id);
-        return ResponseEntity.ok(movement);
+        return new ResponseEntity<>(movement, HttpStatus.OK);
     }
 
     // POST /api/movement
@@ -53,7 +53,7 @@ public class MovementController {
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<Movement> newMovement(@Valid @RequestBody Movement movement) {
         Movement savedMovement = movementService.insertMovement(movement);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedMovement);
+        return new ResponseEntity<>(savedMovement, HttpStatus.CREATED);
     }
 
     // PUT /api/movement/{id}
@@ -61,7 +61,7 @@ public class MovementController {
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<Movement> updateMovement(@PathVariable Long id, @Valid @RequestBody Movement movement) {
         Movement updatedMovement = movementService.updateMovement(movement, id);
-        return ResponseEntity.ok(updatedMovement);
+        return new ResponseEntity<>(updatedMovement, HttpStatus.OK);
     }
 
     // DELETE /api/movement/{id}
@@ -69,6 +69,6 @@ public class MovementController {
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<Void> deleteMovement(@PathVariable Long id) {
         movementService.deleteMovement(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

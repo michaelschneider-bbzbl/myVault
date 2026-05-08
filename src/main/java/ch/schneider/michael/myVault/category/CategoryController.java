@@ -28,7 +28,7 @@ public class CategoryController {
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<Category> newCategory(@Valid @RequestBody Category category) {
         Category savedCategory = categoryService.insertCategory(category);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
+        return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
     }
 
     // GET /api/category
@@ -36,7 +36,7 @@ public class CategoryController {
     @RolesAllowed(Roles.Read)
     public ResponseEntity<List<Category>> all() {
         List<Category> result = categoryService.getCategories();
-        return ResponseEntity.ok(result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     // PUT /api/category/{id}
@@ -44,7 +44,7 @@ public class CategoryController {
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody Category category) {
         Category updatedCategory = categoryService.updateCategory(category, id);
-        return ResponseEntity.ok(updatedCategory);
+        return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
 
     // DELETE /api/category/{id}
@@ -52,6 +52,6 @@ public class CategoryController {
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
